@@ -25,7 +25,7 @@ export default function Home({ articles }) {
           <h2 className="text-4xl mb-4">Articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 w-full">
             {[...articles]
-              .sort((a, b) => new Date(b.date) - new Date(a.date)) // Ordenar por fecha descendente
+              .sort((a, b) => new Date(b.date) - new Date(a.date)) 
               .map((article) => (
                 <Article key={article.slug} article={article} />
               ))}
