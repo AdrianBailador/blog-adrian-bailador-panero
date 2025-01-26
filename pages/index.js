@@ -24,11 +24,14 @@ export default function Home({ articles }) {
         <section className="pt-16">
           <h2 className="text-4xl mb-4">Articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 w-full">
-            {articles.map((article) => (
-              <Article key={article.slug} article={article} />
-            ))}
+            {[...articles]
+              .sort((a, b) => new Date(b.date) - new Date(a.date)) // Ordenar por fecha descendente
+              .map((article) => (
+                <Article key={article.slug} article={article} />
+              ))}
           </div>
         </section>
+
         <section className="pt-16">
           <h2 className="text-4xl mb-4">Follow Me</h2>
           <p className="text-lg mb-4">Connect with me on my social networks:</p>
