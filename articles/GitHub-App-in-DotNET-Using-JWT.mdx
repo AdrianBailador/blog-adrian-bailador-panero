@@ -2,12 +2,13 @@
 title: "How to Authenticate a GitHub App in .NET Using JWT"
 summary: "In this article, I’ll explain step by step how to authenticate a GitHub App in .NET using **JSON Web Tokens (JWT)"
 date: "2025-01-26"
-banner: "https://i.imgur.com/irG9u3R.png"
 ---
+
+
 
 Integrating a GitHub App with your repositories is a great way to automate tasks, monitor events, and enhance your workflow. However, before your app can interact with the GitHub API, it must authenticate securely. In this article, I’ll explain step by step how to authenticate a GitHub App in .NET using **JSON Web Tokens (JWT)**.
 
-
+---
 
 ## What Do You Need Before Starting?
 
@@ -31,7 +32,7 @@ Before diving into the code, make sure you have the following:
 4. **A Plan to Secure Your Private Key:**
    - Never store your private key directly in the code. Use services like **Azure Key Vault**, **AWS Secrets Manager**, or environment variables to keep it safe.
 
-
+---
 
 ## Step 1: Generate the JWT
 
@@ -99,7 +100,7 @@ Console.WriteLine("Generated JWT: " + jwt);
 
 > **Note:** Ensure the `.pem` file is not publicly accessible. Use restrictive permissions or secret management services.
 
-
+---
 
 ## Step 2: Get the Installation Token
 
@@ -166,7 +167,7 @@ catch (Exception ex)
 }
 ```
 
-
+---
 
 ## Step 3: Use the Installation Token
 
@@ -194,7 +195,7 @@ public async Task ListRepositoriesAsync(string installationToken)
 }
 ```
 
-
+---
 
 ## Security Best Practices
 
@@ -202,8 +203,14 @@ public async Task ListRepositoriesAsync(string installationToken)
 2. **Short-lived tokens:** Keep JWTs valid for 10 minutes or less.
 3. **Minimal permissions:** Ensure your GitHub App has only the permissions it strictly needs.
 
+---
 
+## GitHub Repository
 
-## Conclusion
+You can find the complete source code for this project in my GitHub repository:
 
-By following these steps, you can generate the JWT, obtain the installation token, and use it to interact with the GitHub API. With proper security practices, your integration will be reliable and secure.
+[GitHubAppAuth Repository](https://github.com/AdrianBailador/GitHubAppAuth)
+
+Feel free to explore, clone, and contribute!
+
+---
