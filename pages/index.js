@@ -1,14 +1,28 @@
 import { allArticles } from ".contentlayer/generated";
 import { pick } from "@contentlayer/client";
 import Article from "components/article";
-import { Twitter, Linkedin, Github } from "lucide-react"; // Importamos los íconos necesarios
+import { Linkedin, Github } from "lucide-react";
+import { SiX } from "react-icons/si"; 
 
 export default function Home({ articles }) {
   return (
     <div className="px-8">
       <main className="max-w-7xl mx-auto pt-32 pb-40">
-        <h1 className="mb-0 text-6xl">Adrian Bailador Panero</h1>
-        <p className="font-bold">Senior Software Engineer | .NET | C# | Azure | JS</p>
+        {/* Encabezado con foto */}
+        <div className="flex items-center space-x-6">
+          <img
+            src="/adrian.JPG"
+            alt="Adrian Bailador"
+            className="w-24 h-24 rounded-full border-4 border-gray-300"
+          />
+          <div>
+            <h1 className="mb-0 text-6xl">Adrian Bailador Panero</h1>
+            <p className="font-bold">
+              Senior Software Engineer | .NET | C# | Azure | JS
+            </p>
+          </div>
+        </div>
+        
         <section className="pt-16">
           <h2 className="text-4xl mb-4">About Me</h2>
           <p className="mb-5">
@@ -43,7 +57,6 @@ export default function Home({ articles }) {
               className="flex items-center space-x-2 text-blue-600 hover:underline"
             >
               <Linkedin className="w-6 h-6" />
-              <span>LinkedIn</span>
             </a>
             <a
               href="https://x.com/DotNetDevABP"
@@ -51,8 +64,7 @@ export default function Home({ articles }) {
               rel="noopener noreferrer"
               className="flex items-center space-x-2 text-blue-400 hover:underline"
             >
-              <Twitter className="w-6 h-6" />
-              <span>Twitter</span>
+              <SiX className="w-6 h-6" />
             </a>
             <a
               href="https://github.com/AdrianBailador"
@@ -61,7 +73,6 @@ export default function Home({ articles }) {
               className="flex items-center space-x-2 text-gray-800 hover:underline"
             >
               <Github className="w-6 h-6" />
-              <span>GitHub</span>
             </a>
           </div>
         </section>

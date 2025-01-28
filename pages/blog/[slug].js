@@ -19,6 +19,7 @@ export default function Article({ article }) {
             <a>👈 Back to home</a>
           </Link>
         </small>
+        <br />
 
         <h1 className="font-bold text-3xl md:text-5xl tracking-tight mb-4">
           {article.title}
@@ -49,6 +50,12 @@ export default function Article({ article }) {
         <div className="prose dark:prose-dark max-w-none w-full mt-5 mb-8">
           <MDXContent components={mdxComponents} />
         </div>
+        <br />
+        <small>
+          <Link href="/">
+            <a>👈 Back to home</a>
+          </Link>
+        </small>
       </article>
     </main>
   );
