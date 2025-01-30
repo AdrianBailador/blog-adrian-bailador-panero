@@ -33,8 +33,9 @@ export default function Article({ article }) {
               width={24}
               src="/adrian.jpg"
               className="rounded-full"
-              priority={true}
+              unoptimized={true}
             />
+
 
             <p className="text-sm ml-2 text-gray-500">
               {"Adrian Bailador Panero / "}
