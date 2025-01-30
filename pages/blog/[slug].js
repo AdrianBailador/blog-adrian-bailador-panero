@@ -28,11 +28,12 @@ export default function Article({ article }) {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full mt-2">
           <div className="flex items-center">
             <Image
-              alt="Adian Bailador Panero"
+              alt="Adrian Bailador Panero"
               height={24}
               width={24}
               src="/adrian.JPG"
               className="rounded-full"
+              priority={true}
             />
 
             <p className="text-sm ml-2 text-gray-500">
