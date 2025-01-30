@@ -13,7 +13,7 @@ export default function Article({ article }) {
 
   return (
     <main className="flex flex-col justify-center pt-32 pb-40">
-      <article className="flex flex-col justify-center items-start max-w-2xl mx-auto mb-16 w-full">
+      <article className="flex flex-col justify-center items-start max-w-2xl mx-auto mb-16 w-full px-4 md:px-0">
         <small>
           <Link href="/">
             <a>👈 Back to home</a>
@@ -47,7 +47,7 @@ export default function Article({ article }) {
           </p>
         </div>
 
-        <div className="prose dark:prose-dark max-w-none w-full mt-5 mb-8">
+        <div className="prose dark:prose-dark max-w-none w-full mt-5 mb-8 px-4 md:px-0">
           <MDXContent components={mdxComponents} />
         </div>
         <br />
