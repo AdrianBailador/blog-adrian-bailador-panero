@@ -31,7 +31,7 @@ export default function Article({ article }) {
               alt="Adrian Bailador Panero"
               height={24}
               width={24}
-              src="/adrian.JPG"
+              src="/adrian.jpg"
               className="rounded-full"
               priority={true}
             />

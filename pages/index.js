@@ -11,7 +11,7 @@ export default function Home({ articles }) {
         {/* Encabezado con foto */}
         <div className="flex items-center space-x-6">
           <img
-            src="/adrian.JPG"
+            src="/adrian.jpg"
             alt="Adrian Bailador"
             className="w-24 h-24 rounded-full border-4 border-gray-300"
           />
