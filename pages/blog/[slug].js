@@ -15,9 +15,7 @@ export default function Article({ article }) {
     <main className="flex flex-col justify-center pt-32 pb-40">
       <article className="flex flex-col justify-center items-start max-w-2xl mx-auto mb-16 w-full px-4 md:px-0">
         <small>
-          <Link href="/">
-            <a>👈 Back to home</a>
-          </Link>
+          <Link href="/" className="hover:underline">👈 Back to home</Link>
         </small>
         <br />
 
@@ -25,38 +23,38 @@ export default function Article({ article }) {
           {article.title}
         </h1>
 
+        {/* Contenedor de autor y fecha */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full mt-2">
-          <div className="flex items-center">
+          <div className="flex items-center gap-2">
             <Image
               alt="Adrian Bailador Panero"
-              height={24}
-              width={24}
+              height={32}
+              width={32}
               src="/adrian.jpg"
               className="rounded-full"
-              unoptimized={true}
+              unoptimized
             />
-
-
-            <p className="text-sm ml-2 text-gray-500">
-              {"Adrian Bailador Panero / "}
-
-              {format(parseISO(article.date), "MMMM dd, yyyy")}
-            </p>
+            <span className="text-sm text-gray-500 flex items-center">
+              Adrian Bailador Panero / {format(parseISO(article.date), "MMMM dd, yyyy")}
+            </span>
           </div>
 
-          <p className="text-sm text-gray-500 min-w-32 mt-2 md:mt-0">
+
+
+
+          <p className="text-sm text-gray-500 min-w-32 mt-2 md:mt-0 text-right">
             {article.readingTime.text}
           </p>
         </div>
 
-        <div className="prose dark:prose-dark max-w-none w-full mt-5 mb-8 px-4 md:px-0">
+        {/* Contenido del artículo */}
+        <div className="prose dark:prose-invert max-w-none w-full mt-5 mb-8 px-4 md:px-0">
           <MDXContent components={mdxComponents} />
         </div>
+
         <br />
         <small>
-          <Link href="/">
-            <a>👈 Back to home</a>
-          </Link>
+          <Link href="/" className="hover:underline">👈 Back to home</Link>
         </small>
       </article>
     </main>
@@ -72,6 +70,5 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const article = allArticles.find((article) => article.slug === params?.slug);
-
   return { props: { article } };
 }

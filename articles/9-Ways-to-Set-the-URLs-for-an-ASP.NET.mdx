@@ -156,7 +156,7 @@ You can set URLs directly in the launch settings file (`launchSettings.json`) fo
 ### 9. Custom Middleware
 For advanced scenarios, you can implement middleware to dynamically adjust the URLs or handle specific routing needs.
 
-**Example:**
+*Example:*
 ```csharp
 app.Use(async (context, next) =>
 {
@@ -170,7 +170,9 @@ app.Use(async (context, next) =>
 
 
 ### Conflicts and Precedence
+
 When multiple methods are used simultaneously, the following precedence applies (highest to lowest):
+
 1. Command line arguments.
 2. Environment variables.
 3. `appsettings.json`.

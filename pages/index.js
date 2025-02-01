@@ -2,27 +2,27 @@ import { allArticles } from ".contentlayer/generated";
 import { pick } from "@contentlayer/client";
 import Article from "components/article";
 import { Linkedin, Github } from "lucide-react";
-import { SiX } from "react-icons/si"; 
+import { SiX } from "react-icons/si";
 
 export default function Home({ articles }) {
   return (
     <div className="px-8">
       <main className="max-w-7xl mx-auto pt-32 pb-40">
-        {/* Encabezado con foto */}
-        <div className="flex items-center space-x-6">
-          <img
-            src="/adrian.jpg"
-            alt="Adrian Bailador"
-            className="w-24 h-24 rounded-full border-4 border-gray-300"
-          />
-          <div>
-            <h1 className="mb-0 text-6xl">Adrian Bailador Panero</h1>
-            <p className="font-bold">
-              Senior Software Engineer | .NET | C# | Azure | JS
-            </p>
-          </div>
-        </div>
-        
+      <div className="flex items-center gap-4">
+  <img
+    src="/adrian.jpg"
+    alt="Adrian Bailador"
+    className="w-24 h-24 rounded-full border-4 border-gray-300 object-cover"
+  />
+  <div className="flex flex-col">
+    <h1 className="text-4xl md:text-6xl leading-tight">Adrian Bailador Panero</h1>
+    <p className="font-bold text-lg text-gray-600">Senior Software Engineer | .NET | C# | Azure | JS</p>
+  </div>
+</div>
+
+
+
+
         <section className="pt-16">
           <h2 className="text-4xl mb-4">About Me</h2>
           <p className="mb-5">
@@ -39,7 +39,7 @@ export default function Home({ articles }) {
           <h2 className="text-4xl mb-4">Articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 w-full">
             {[...articles]
-              .sort((a, b) => new Date(b.date) - new Date(a.date)) 
+              .sort((a, b) => new Date(b.date) - new Date(a.date))
               .map((article) => (
                 <Article key={article.slug} article={article} />
               ))}
@@ -70,7 +70,7 @@ export default function Home({ articles }) {
               href="https://github.com/AdrianBailador"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center space-x-2 text-gray-800 hover:underline"
+              className="flex items-center space-x-2 text-gray-300 hover:underline"
             >
               <Github className="w-6 h-6" />
             </a>
