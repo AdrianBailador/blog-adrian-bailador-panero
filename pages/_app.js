@@ -18,25 +18,23 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     // Check for saved theme in localStorage
     const savedTheme = localStorage.getItem("theme");
+
     if (savedTheme) {
       setTheme(savedTheme);
       document.documentElement.classList.add(savedTheme);
     } else {
-      // Check system preference if no saved theme
-      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-        setTheme("dark");
-        document.documentElement.classList.add("dark");
-      } else {
-        setTheme("light");
-        document.documentElement.classList.remove("dark");
-      }
+      // Otherwise, check system preference
+      const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const initialTheme = systemPrefersDark ? "dark" : "light";
+      setTheme(initialTheme);
+      document.documentElement.classList.add(initialTheme);
     }
-  }, []);
+  }, []); // Empty dependency array to run only once on component mount
 
   return (
     <div>
       <Head>
-        <title>Mi Blog - Adrian Bailador Panero</title>
+        <title>My Blog - Adrian Bailador Panero</title>
         <meta name="description" content="Blog personal de Adrian Bailador Panero" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -45,7 +43,7 @@ function MyApp({ Component, pageProps }) {
       <button
         onClick={toggleTheme}
         aria-label={`Switch to ${theme === "light" ? "dark" : "light"} mode`}
-        className="fixed top-4 right-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-full transition-colors"
+        className="fixed top-4 right-4 p-2 bg-gray-200 dark:bg-gray-700 rounded-full transition-colors duration-300 ease-in-out"
       >
         {theme === "light" ? (
           <Moon className="w-6 h-6 text-gray-800 dark:text-white" />

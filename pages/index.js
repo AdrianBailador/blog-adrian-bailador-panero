@@ -6,6 +6,10 @@ import { SiX } from "react-icons/si";
 import Head from 'next/head';
 
 export default function Home({ articles }) {
+  if (!articles || articles.length === 0) {
+    return <p>No articles found.</p>; // Muestra un mensaje si no hay artículos disponibles
+  }
+
   return (
     <div className="px-8">
       <Head>
@@ -42,7 +46,7 @@ export default function Home({ articles }) {
         <section className="pt-16">
           <h2 className="text-4xl mb-4">Articles</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 w-full">
-            {[...articles]
+            {articles
               .sort((a, b) => new Date(b.date) - new Date(a.date))
               .map((article) => (
                 <Article key={article.slug} article={article} />
