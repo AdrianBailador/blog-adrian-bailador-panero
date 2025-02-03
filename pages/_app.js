@@ -6,34 +6,40 @@ import "../styles/globals.css";
 function MyApp({ Component, pageProps }) {
   const [theme, setTheme] = useState("light");
 
+  // Toggle theme between light and dark modes
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
-    // dark
-    if (newTheme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    document.documentElement.classList.toggle("dark", newTheme === "dark");
+    // Save theme preference to localStorage
+    localStorage.setItem("theme", newTheme);
   };
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      setTheme("dark");
-      document.documentElement.classList.add("dark");
+    // Check for saved theme in localStorage
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setTheme(savedTheme);
+      document.documentElement.classList.add(savedTheme);
     } else {
-      setTheme("light");
-      document.documentElement.classList.remove("dark");
+      // Check system preference if no saved theme
+      if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        setTheme("dark");
+        document.documentElement.classList.add("dark");
+      } else {
+        setTheme("light");
+        document.documentElement.classList.remove("dark");
+      }
     }
   }, []);
 
   return (
     <div>
       <Head>
-        <title>Mi Blog - Adrian Bailador Panero</title> 
-        <meta name="description" content="Blog personal de Adrian Bailador Panero" /> 
-        <meta name="viewport" content="width=device-width, initial-scale=1" /> 
-        <link rel="icon" href="/favicon.ico" /> 
+        <title>Mi Blog - Adrian Bailador Panero</title>
+        <meta name="description" content="Blog personal de Adrian Bailador Panero" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <button
