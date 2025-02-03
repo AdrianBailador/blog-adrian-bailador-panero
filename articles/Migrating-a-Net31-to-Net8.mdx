@@ -1,0 +1,195 @@
+---
+title: "Migrate a project to .NET 8"
+summary: "Migrating a **.NET Core 3.1** project to **.NET 8** might seem challenging, but with the right guide, the process becomes much smoother. Here’s a step-by-step guide to help you transition without headaches."
+date: "2025-02-03"
+---
+
+Migrating a **.NET Core 3.1** project to **.NET 8** might seem challenging, but with the right guide, the process becomes much smoother. Here’s a step-by-step guide to help you transition without headaches.
+
+---
+
+## 🔹 **Why Upgrade to .NET 8?**
+Before starting, let’s ask ourselves: why migrate to .NET 8? Here are some key reasons:
+- **Better performance**: more optimization and lower memory consumption.
+- **Long-Term Support (LTS)**: .NET 8 will be supported until at least 2026.
+- **Improved JSON Serialization** with `System.Text.Json`.
+- **New features in minimal APIs and Blazor**, making web development easier.
+- **Enhanced security** in authentication and authorization.
+
+---
+
+## 🔹 **1. Review Your Dependencies**
+Before migrating, it’s essential to check whether your dependencies and external libraries are compatible with .NET 8.
+
+1. **Check your current project version** using:
+   ```bash
+   dotnet --version
+   ```
+   If you see something like `3.1.x`, you're still on .NET Core 3.1.
+
+2. **Analyze your dependencies**:
+   - Open the `.csproj` file and review the NuGet packages you're using.
+   - Use this command to check which packages need updating:
+     ```bash
+     dotnet list package --outdated
+     ```
+
+3. **Tools that can help**:
+   - Use `dotnet upgrade-assistant` to simplify the migration:
+     ```bash
+     dotnet tool install -g upgrade-assistant
+     upgrade-assistant upgrade <project-path>
+     ```
+   This will provide a list of suggested changes and help automate parts of the upgrade process.
+
+4. **Check the official documentation** for each package to confirm compatibility with .NET 8.
+
+---
+
+## 🔹 **2. Update the SDK to .NET 8**
+1. Download and install the .NET 8 SDK from the official Microsoft page:  
+   👉 [Download .NET 8](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
+
+2. Verify the installation:
+   ```bash
+   dotnet --version
+   ```
+   If everything is fine, you should see something like `8.x.x`.
+
+---
+
+## 🔹 **3. Update the `.csproj` File**
+Open the `.csproj` file and change the **Target Framework** version:
+
+Before (in .NET Core 3.1):
+```xml
+<TargetFramework>netcoreapp3.1</TargetFramework>
+```
+After (in .NET 8):
+```xml
+<TargetFramework>net8.0</TargetFramework>
+```
+If you have multiple projects, repeat this step for each one.
+
+---
+
+## 🔹 **4. Update NuGet Dependencies**
+Run the following commands to clear the cache and update packages:
+```bash
+   dotnet nuget locals all --clear
+   dotnet restore
+```
+To update **all** dependencies to the latest compatible version:
+```bash
+   dotnet outdated --upgrade
+```
+*(If you don’t have `dotnet outdated`, install it using `dotnet tool install --global dotnet-outdated-tool`.)*
+
+---
+
+## 🔹 **5. Code Adjustments**
+.NET 8 introduces several important changes. Here are some of the most relevant ones:
+
+### 🚀 **5.1. Changes in `Startup.cs` and `Program.cs`**
+In .NET Core 3.1, `Startup.cs` handled configuration. Now, in .NET 8, everything moves to `Program.cs`.
+
+📌 **Before (3.1 with `Startup.cs`)**
+```csharp
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllers();
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        app.UseRouting();
+        app.UseAuthorization();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+    }
+}
+```
+📌 **After (8.0 with `Program.cs`)**
+```csharp
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+
+app.UseAuthorization();
+app.MapControllers();
+app.Run();
+```
+
+---
+
+### 🚀 **5.4. Changes in Authentication and Authorization**
+If your project uses authentication with JWT or IdentityServer4, you may need some adjustments:
+```csharp
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.Authority = "https://your-authentication-server";
+        options.Audience = "api";
+    });
+```
+
+---
+
+### 🚀 **5.5. JSON Serialization Optimization**
+If you previously used `Newtonsoft.Json`, you can now take advantage of `System.Text.Json` with optimized configuration:
+```csharp
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
+```
+
+---
+
+## 🔹 **6. Test Your Application**
+1. Build and run the application:
+   ```bash
+   dotnet build
+   dotnet run
+   ```
+2. Check for any errors or warnings.
+3. Run unit tests:
+   ```bash
+   dotnet test
+   ```
+
+---
+
+## 🔹 **7. Final Steps Before Deployment**
+If you use Docker or Azure, check the following:
+- If using Docker, update the base image in `Dockerfile`:
+  ```dockerfile
+  FROM mcr.microsoft.com/dotnet/aspnet:8.0
+  ```
+- On **Azure App Services**, verify that the Azure runtime supports .NET 8.
+
+---
+
+## 🚀 **Conclusion**
+Migrating from .NET Core 3.1 to .NET 8 doesn’t have to be complicated. Just follow these steps:
+✅ Update the SDK and `.csproj` file.  
+✅ Review and update dependencies.  
+✅ Adjust `Program.cs`, middleware, and authentication.  
+✅ Test everything before deployment.
+
+With patience and planning, your migration will be a success. Good luck! 🚀
+
