@@ -1,0 +1,110 @@
+---
+title: "Structuring a Clean Architecture Folder"
+summary: "Clean Architecture provides a powerful framework for organising software projects, with four layers: Domain, Application, Infrastructure and Presentation."
+date: "2024-01-16"
+---
+
+Clean Architecture offers a powerful framework for organizing software projects, emphasizing four layers: Domain, Application, Infrastructure, and Presentation. This comprehensive guide delves into a nuanced folder structure for a .NET solution aligned with Clean Architecture principles.
+
+## **1. Domain Layer**
+
+* **Core Entities, Events, and More** 
+
+At the heart of Clean Architecture lies the Domain layer, housing entities, value objects, aggregates, domain events, exceptions, and repository interfaces. This structure fosters a clear delineation:
+
+```markdown
+📁 Domain
+|__ 📁 DomainEvents
+|__ 📁 Entities
+|__ 📁 Exceptions
+|__ 📁 Repositories
+|__ 📁 Shared
+|__ 📁 ValueObjects
+```
+
+
+* **Crucial Isolation** 
+
+It's imperative that the Domain layer avoids referencing other projects within the solution, ensuring a clean and independent core.
+
+## **2. Application Layer**
+
+* **Orchestrating Use Cases with Precision** 
+
+Above the Domain layer, the Application layer serves as the conductor orchestrating use cases and containing critical application logic. Embracing the command and query approach, the structure unfolds:
+
+
+```markdown
+📁 Application
+|__ 📁 Abstractions
+    |__ 📁 Data
+    |__ 📁 Email
+    |__ 📁 Messaging
+|__ 📁 Behaviors
+|__ 📁 Contracts
+|__ 📁 Entity1
+    |__ 📁 Commands
+    |__ 📁 Events
+    |__ 📁 Queries
+|__ 📁 Entity2
+    |__ 📁 Commands
+    |__ 📁 Events
+    |__ 📁 Queries
+```
+
+    
+* **Interface Clarity** 
+
+The Abstractions folder hosts interfaces, with implementations residing in higher layers, ensuring a well-defined separation of concerns.
+
+## 3. **Infrastructure Layer**
+
+* **Implementing External Services with Precision** 
+
+The Infrastructure layer undertakes the responsibility of implementing external services such as databases, identity providers, and more. This structured layout includes:
+
+
+```markdown
+📁 Infrastructure
+|__ 📁 BackgroundJobs
+|__ 📁 Services
+    |__ 📁 Email
+    |__ 📁 Messaging
+|__ 📁 Persistence
+    |__ 📁 EntityConfigurations
+    |__ 📁 Migrations
+    |__ 📁 Repositories
+    |__ #️⃣ ApplicationDbContext.cs
+|__ 📁 ...
+```
+
+* **Database Management** 
+
+Consider placing the DbContext implementation (especially if using EF Core) in the Persistence folder. This folder can potentially become its project for enhanced organization.
+
+## 4. **Presentation Layer** 
+
+* **Gateway to the System** 
+
+The Presentation layer serves as the system's entry point, commonly implemented as a Web API project. Key components, notably Controllers defining API endpoints, are organized as follows:
+
+
+```markdown
+📁 Presentation
+|__ 📁 Controllers
+|__ 📁 Middlewares
+|__ 📁 ViewModels
+|__ 📁 ...
+|__ #️⃣ Program.cs
+```
+
+* **Controller Isolation** 
+
+In certain scenarios, contemplate isolating Controllers into a separate project for more stringent constraints and clearer separation of concerns.
+
+## 5. **Flexibility and Options** 
+
+* **Crafting Your Architectural Journey** 
+
+While this proposed folder structure serves as a robust foundation, Clean Architecture thrives on flexibility. Explore and experiment, introduce additional projects for granularity, or leverage folders for finer separation. The goal is to offer you a plethora of options for exploration, empowering you to make informed decisions based on your project's unique needs. Dive deep into the flexibility Clean Architecture offers, ensuring your project structure aligns seamlessly with your development journey.
+
