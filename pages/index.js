@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { allArticles } from ".contentlayer/generated";
 import { pick } from "@contentlayer/client";
 import Article from "components/article";
@@ -6,9 +7,18 @@ import { SiX } from "react-icons/si";
 import Head from 'next/head';
 
 export default function Home({ articles }) {
-  if (!articles || articles.length === 0) {
-    return <p>No articles found.</p>; // Muestra un mensaje si no hay artículos disponibles
-  }
+  const [sortOption, setSortOption] = useState("newest");
+
+  const sortedArticles = [...articles].sort((a, b) => {
+    if (sortOption === "newest") {
+      return new Date(b.date) - new Date(a.date);
+    } else if (sortOption === "oldest") {
+      return new Date(a.date) - new Date(b.date);
+    } else if (sortOption === "readingTime") {
+      return b.readingTime - a.readingTime;
+    }
+    return 0;
+  });
 
   return (
     <div className="px-8">
@@ -45,12 +55,24 @@ export default function Home({ articles }) {
 
         <section className="pt-16">
           <h2 className="text-4xl mb-4">Articles</h2>
+          <div>
+            
+            <select
+              id="sort"
+              className="border px-2 py-1 rounded bg-white dark:bg-gray-700 dark:text-white w-full sm:w-auto"
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+              <option value="readingTime">Longest Reading Time</option>
+            </select>
+          </div>
+          <br />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 w-full">
-            {articles
-              .sort((a, b) => new Date(b.date) - new Date(a.date))
-              .map((article) => (
-                <Article key={article.slug} article={article} />
-              ))}
+            {sortedArticles.map((article) => (
+              <Article key={article.slug} article={article} />
+            ))}
           </div>
         </section>
 
