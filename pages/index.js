@@ -6,17 +6,26 @@ import { Linkedin, Github } from "lucide-react";
 import { SiX } from "react-icons/si";
 import Head from 'next/head';
 
+const topics = ["C#", ".NET", "Next.js", "React", "JavaScript"];
+
 export default function Home({ articles }) {
   const [sortOption, setSortOption] = useState("newest");
+  const [selectedTopic, setSelectedTopic] = useState("");
 
-  const sortedArticles = [...articles].sort((a, b) => {
-    if (sortOption === "newest") {
-      return new Date(b.date) - new Date(a.date);
-    } else if (sortOption === "oldest") {
-      return new Date(a.date) - new Date(b.date);
-    } else if (sortOption === "readingTime") {
-      return b.readingTime - a.readingTime;
-    }
+  const filteredArticles = selectedTopic
+    ? articles.filter((article) =>
+        topics.some(
+          (topic) =>
+            article.title.toLowerCase().includes(topic.toLowerCase()) &&
+            topic === selectedTopic
+        )
+      )
+    : articles;
+
+  const sortedArticles = [...filteredArticles].sort((a, b) => {
+    if (sortOption === "newest") return new Date(b.date) - new Date(a.date);
+    if (sortOption === "oldest") return new Date(a.date) - new Date(b.date);
+    if (sortOption === "readingTime") return b.readingTime - a.readingTime;
     return 0;
   });
 
@@ -43,10 +52,10 @@ export default function Home({ articles }) {
         <section className="pt-16">
           <h2 className="text-4xl mb-4">About Me</h2>
           <p className="mb-5">
-            I am a passionate and dedicated .NET Software Engineer with extensive experience in application development using .NET Core, .NET Framework, Azure, React, Java and SQL Server. Throughout my career, I have demonstrated the ability to design and optimize SQL Server databases, create intuitive user interfaces using React and JavaScript, and efficiently manage code version control with Git.
+            I am a passionate and dedicated .NET Software Engineer with extensive experience in application development using .NET Core, .NET Framework, Azure, React, Java, and SQL Server. Throughout my career, I have demonstrated the ability to design and optimize SQL Server databases, create intuitive user interfaces using React and JavaScript, and efficiently manage code version control with Git.
             <br />
             <br />
-            I possess solid knowledge of the entire software development lifecycle, including requirements analysis, application implementation, testing and maintenance. I am always seeking opportunities to apply and expand my technical skills while delivering valuable and innovative solutions to software development teams.
+            I possess solid knowledge of the entire software development lifecycle, including requirements analysis, application implementation, testing, and maintenance. I am always seeking opportunities to apply and expand my technical skills while delivering valuable and innovative solutions to software development teams.
             <br />
             <br />
             My long-term goal is to become a Software Architect. I am continuously learning and improving my skills to achieve this objective. I strongly believe in the potential of technology to enhance business operations, and I am motivated by the opportunity to contribute to the creation of solutions that make a meaningful impact.
@@ -55,8 +64,7 @@ export default function Home({ articles }) {
 
         <section className="pt-16">
           <h2 className="text-4xl mb-4">Articles</h2>
-          <div>
-            
+          <div className="flex flex-col sm:flex-row gap-4">
             <select
               id="sort"
               className="border px-2 py-1 rounded bg-white dark:bg-gray-700 dark:text-white w-full sm:w-auto"
@@ -66,6 +74,20 @@ export default function Home({ articles }) {
               <option value="newest">Newest</option>
               <option value="oldest">Oldest</option>
               <option value="readingTime">Longest Reading Time</option>
+            </select>
+
+            <select
+              id="topic"
+              className="border px-2 py-1 rounded bg-white dark:bg-gray-700 dark:text-white w-full sm:w-auto"
+              value={selectedTopic}
+              onChange={(e) => setSelectedTopic(e.target.value)}
+            >
+              <option value="">All Topics</option>
+              {topics.map((topic) => (
+                <option key={topic} value={topic}>
+                  {topic}
+                </option>
+              ))}
             </select>
           </div>
           <br />
@@ -80,31 +102,13 @@ export default function Home({ articles }) {
           <h2 className="text-4xl mb-4">Follow Me</h2>
           <p className="text-lg mb-4">Connect with me on my social networks:</p>
           <div className="flex space-x-6">
-            <a
-              href="https://linkedin.com/in/adrianbailadorpanero"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn Profile"
-              className="flex items-center space-x-2 text-blue-600 hover:underline"
-            >
+            <a href="https://linkedin.com/in/adrianbailadorpanero" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" className="flex items-center space-x-2 text-blue-600 hover:underline">
               <Linkedin className="w-6 h-6" />
             </a>
-            <a
-              href="https://x.com/DotNetDevABP"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="X Profile"
-              className="flex items-center space-x-2 text-blue-400 hover:underline"
-            >
+            <a href="https://x.com/DotNetDevABP" target="_blank" rel="noopener noreferrer" aria-label="X Profile" className="flex items-center space-x-2 text-blue-400 hover:underline">
               <SiX className="w-6 h-6" />
             </a>
-            <a
-              href="https://github.com/AdrianBailador"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub Profile"
-              className="flex items-center space-x-2 text-gray-300 hover:underline"
-            >
+            <a href="https://github.com/AdrianBailador" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" className="flex items-center space-x-2 text-gray-300 hover:underline">
               <Github className="w-6 h-6" />
             </a>
           </div>
@@ -118,6 +122,5 @@ export async function getStaticProps() {
   const articles = allArticles.map((article) =>
     pick(article, ["title", "date", "readingTime", "slug"])
   );
-
   return { props: { articles } };
 }
