@@ -44,6 +44,31 @@ export default function Home({ articles }) {
       </Head>
 
       <main className="max-w-7xl mx-auto pt-32 pb-40">
+        <div className="flex items-center gap-4">
+          <img
+            src="/adrian.jpg"
+            alt="Adrian Bailador"
+            className="w-24 h-24 rounded-full border-4 border-gray-300 object-cover"
+          />
+          <div className="flex flex-col">
+            <h1 className="text-4xl md:text-6xl leading-tight">Adrian Bailador Panero</h1>
+            <p className="font-bold text-lg text-gray-600">Senior Software Engineer | .NET | C# | Azure | JS</p>
+          </div>
+        </div>
+
+        <section className="pt-16">
+          <h2 className="text-4xl mb-4">About Me</h2>
+          <p className="mb-5">
+            I am a passionate and dedicated .NET Software Engineer with extensive experience in application development using .NET Core, .NET Framework, Azure, React, Java, and SQL Server. Throughout my career, I have demonstrated the ability to design and optimize SQL Server databases, create intuitive user interfaces using React and JavaScript, and efficiently manage code version control with Git.
+            <br />
+            <br />
+            I possess solid knowledge of the entire software development lifecycle, including requirements analysis, application implementation, testing, and maintenance. I am always seeking opportunities to apply and expand my technical skills while delivering valuable and innovative solutions to software development teams.
+            <br />
+            <br />
+            My long-term goal is to become a Software Architect. I am continuously learning and improving my skills to achieve this objective. I strongly believe in the potential of technology to enhance business operations, and I am motivated by the opportunity to contribute to the creation of solutions that make a meaningful impact.
+          </p>
+        </section>
+
         <section className="pt-16">
           <h2 className="text-4xl mb-4">Articles</h2>
           <div className="flex flex-col sm:flex-row gap-4">
