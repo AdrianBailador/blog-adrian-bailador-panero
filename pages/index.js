@@ -44,6 +44,13 @@ export default function Home({ articles }) {
       </Head>
 
       <main className="max-w-7xl mx-auto pt-32 pb-40">
+        {/* Navbar */}
+        <nav className="flex justify-center gap-8 mb-16">
+          <a href="#about" className="text-lg text-gray-600 hover:text-blue-600">About Me</a>
+          <a href="#articles" className="text-lg text-gray-600 hover:text-blue-600">Articles</a>
+          <a href="#follow" className="text-lg text-gray-600 hover:text-blue-600">Follow Me</a>
+        </nav>
+
         <div className="flex items-center gap-4">
           <img
             src="/adrian.jpg"
@@ -56,7 +63,7 @@ export default function Home({ articles }) {
           </div>
         </div>
 
-        <section className="pt-16">
+        <section id="about" className="pt-16">
           <h2 className="text-4xl mb-4">About Me</h2>
           <p className="mb-5">
             I am a passionate and dedicated .NET Software Engineer with extensive experience in application development using .NET Core, .NET Framework, Azure, React, Java, and SQL Server. Throughout my career, I have demonstrated the ability to design and optimize SQL Server databases, create intuitive user interfaces using React and JavaScript, and efficiently manage code version control with Git.
@@ -69,7 +76,7 @@ export default function Home({ articles }) {
           </p>
         </section>
 
-        <section className="pt-16">
+        <section id="articles" className="pt-16">
           <h2 className="text-4xl mb-4">Articles</h2>
           <div className="flex flex-col sm:flex-row gap-4">
             <label htmlFor="sort" className="sr-only">Sort Articles</label>
@@ -126,7 +133,7 @@ export default function Home({ articles }) {
           </div>
         </section>
 
-        <section className="pt-16">
+        <section id="follow" className="pt-16">
           <h2 className="text-4xl mb-4">Follow Me</h2>
           <p className="text-lg mb-4">Connect with me on my social networks:</p>
           <div className="flex space-x-6">
