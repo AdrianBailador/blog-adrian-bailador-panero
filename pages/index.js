@@ -72,6 +72,7 @@ export default function Home({ articles }) {
         <section className="pt-16">
           <h2 className="text-4xl mb-4">Articles</h2>
           <div className="flex flex-col sm:flex-row gap-4">
+            <label htmlFor="sort" className="sr-only">Sort Articles</label>
             <select
               id="sort"
               className="border px-2 py-1 rounded bg-white dark:bg-gray-700 dark:text-white w-full sm:w-auto"
@@ -83,6 +84,7 @@ export default function Home({ articles }) {
               <option value="readingTime">Longest Reading Time</option>
             </select>
 
+            <label htmlFor="topic" className="sr-only">Filter Articles by Topic</label>
             <select
               id="topic"
               className="border px-2 py-1 rounded bg-white dark:bg-gray-700 dark:text-white w-full sm:w-auto"
@@ -108,6 +110,7 @@ export default function Home({ articles }) {
               onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
               className="disabled:opacity-50"
+              aria-label="Previous Page"
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
@@ -116,6 +119,7 @@ export default function Home({ articles }) {
               onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
               className="disabled:opacity-50"
+              aria-label="Next Page"
             >
               <ChevronRight className="w-6 h-6" />
             </button>
