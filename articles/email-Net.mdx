@@ -4,35 +4,31 @@ summary: "Managing emails programmatically is a common requirement in many appli
 date: "2025-02-17"
 ---
 
+## Introduction
+Dealing with emails by code is a must in many apps. In .NET 9, the `SmtpClient` class is too old and not suggested anymore. Now, `MailKit` and `MimeKit` offer a new, fast, and bendy method for email talks. This piece looks at how to set up and use `MailKit` in C# to send emails well and safe.
 
-## 📌 Introduction
-Managing emails programmatically is a common requirement in many applications. In **.NET 9**, the `SmtpClient` class is **obsolete** and no longer recommended. Instead, **MailKit** and **MimeKit** provide a modern, efficient, and flexible way to handle email communication. 
-
-This guide will help you configure and use **MailKit** to send emails **securely and efficiently**.
-
----
-## ✅ Prerequisites
+## Prerequisites
 Before implementing email-sending functionality, ensure you have:
 
-✔ A **.NET 9** application (Console, Web, or Windows Forms)
-✔ An **SMTP server** (e.g., Gmail, Outlook, or your own SMTP service)
-✔ Valid **SMTP credentials** (username and password) or an **OAuth2 token**
-✔ **Secure storage** for credentials (**environment variables, Azure Key Vault, AWS Secrets Manager**)
+- A .NET 9 application (Console, Web, or Windows Forms)
+- An SMTP server (e.g., Gmail, Outlook, or your own SMTP service)
+- Valid SMTP credentials (username and password) or an OAuth2 token
+- Secure storage for credentials (environment variables, Azure Key Vault, AWS Secrets Manager, etc.)
 
----
-## 🔧 Setting Up MailKit in C#
-### 1️⃣ Install Required Package
+## Setting Up MailKit in C#
+To send an email using `MailKit`, follow these steps:
+
+### 1. Install Required Package
 Run the following command to install MailKit:
-```sh
+```bash
  dotnet add package MailKit
 ```
 
-### 2️⃣ Securely Store SMTP Credentials
-❌ **Bad practice:** Hardcoding credentials in your code.
-✅ **Good practice:** Use **environment variables**:
+### 2. Securely Store SMTP Credentials
+Avoid hardcoding credentials in your code. Instead, use environment variables:
 
-#### **Set Environment Variables (Windows/Linux/macOS)**
-```sh
+#### **Set Environment Variables**
+```bash
 export SMTP_HOST=smtp.example.com
 export SMTP_PORT=587
 export SMTP_USER=your-email@example.com
@@ -47,8 +43,7 @@ var smtpUser = Environment.GetEnvironmentVariable("SMTP_USER");
 var smtpPassword = Environment.GetEnvironmentVariable("SMTP_PASSWORD");
 ```
 
----
-## 📤 Sending an Email
+## Sending an Email
 ```csharp
 using MailKit.Net.Smtp;
 using MailKit.Security;
@@ -65,7 +60,7 @@ class Program
             message.From.Add(new MailboxAddress("Your Name", smtpUser));
             message.To.Add(new MailboxAddress("Recipient", "recipient@example.com"));
             message.Subject = "Test Email";
-            message.Body = new TextPart("plain") { Text = "This is a test email sent from a .NET 9 application." };
+            message.Body = new TextPart("plain") { Text = "This is a test email sent from Codú." };
 
             using var client = new SmtpClient();
             client.Connect(smtpHost, smtpPort, SecureSocketOptions.StartTls);
@@ -83,17 +78,13 @@ class Program
 }
 ```
 
----
-## 🔒 SecureSocketOptions Overview
-| Option            | Description |
-|------------------|-------------|
-| `None`          | No encryption. |
-| `SslOnConnect`  | Uses SSL/TLS immediately upon connection. |
-| `StartTls`      | Starts unencrypted, then upgrades to TLS (**Recommended**). |
-| `Auto`          | Automatically selects the best option. |
+## Understanding `SecureSocketOptions`
+- `None`: No encryption.
+- `SslOnConnect`: Uses SSL/TLS immediately upon connection.
+- `StartTls`: Starts with an unencrypted connection and upgrades to TLS (Recommended).
+- `Auto`: Automatically selects the best option.
 
----
-## 📎 Sending Emails with Attachments
+## Sending Emails with Attachments
 ```csharp
 var message = new MimeMessage();
 message.From.Add(new MailboxAddress("Your Name", smtpUser));
@@ -113,32 +104,28 @@ var multipart = new Multipart("mixed") { body, attachment };
 message.Body = multipart;
 ```
 
----
-## 📧 Sending HTML Emails
+## Sending HTML Emails
 ```csharp
 message.Body = new TextPart("html")
 {
-    Text = "<h1>Welcome!</h1><p>This is a <strong>test email</strong> with HTML formatting.</p>"
+    Text = "<h1>Welcome!</h1><p>This is a <strong>test email from Codú</strong> with HTML formatting.</p>"
 };
 ```
 
----
-## 📩 Sending Emails to Multiple Recipients
+## Sending Emails to Multiple Recipients
 ```csharp
 message.To.Add(new MailboxAddress("Recipient1", "recipient1@example.com"));
 message.To.Add(new MailboxAddress("Recipient2", "recipient2@example.com"));
 message.Bcc.Add(new MailboxAddress("Hidden Recipient", "bcc@example.com"));
 ```
 
----
-## 🔐 Using OAuth2 Authentication (Recommended for Gmail, Outlook)
+## Using OAuth2 Authentication (Gmail, Outlook)
 ```csharp
 using MailKit.Security;
 client.Authenticate(new SaslMechanismOAuth2(smtpUser, "your-access-token"));
 ```
 
----
-## 📊 Implementing Logging with Serilog
+## Implementing Logging with Serilog
 ```csharp
 using Serilog;
 Log.Logger = new LoggerConfiguration()
@@ -149,33 +136,31 @@ Log.Logger = new LoggerConfiguration()
 Log.Information("Email sent successfully to {Recipient}", "recipient@example.com");
 ```
 
----
-## 🔄 Enhancing Resilience with Retry Policies
+## Enhancing Resilience with Retry Policies
 Using `Polly` to implement retries on transient errors:
 ```csharp
 var retryPolicy = Policy.Handle<SmtpCommandException>()
     .WaitAndRetry(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
 ```
 
----
-## ⚡ Sending Emails Asynchronously
+## Sending Emails Asynchronously
 For better performance in web applications:
 ```csharp
 await client.SendAsync(message);
 await client.DisconnectAsync(true);
 ```
 
----
-## ⚙ Background Email Processing
+## Background Email Processing
 For large-scale applications, consider:
-- **📅 Hangfire** (Task scheduling)
-- **⏳ Quartz.NET** (Job scheduling)
-- **📬 RabbitMQ / Azure Queue Storage** (Message queuing)
+- **Hangfire** (Task scheduling)
+- **Quartz.NET** (Job scheduling)
+- **RabbitMQ / Azure Queue Storage** (Message queuing)
 
----
-## 🛠 Testing Email Sending with `Smtp4Dev` or `Mailtrap`
+## Testing Email Sending with `Smtp4Dev` or `Mailtrap`
+To avoid sending real emails during development, use:
+
 ### **Option 1: Smtp4Dev (Local SMTP Server)**
-```sh
+```bash
 dotnet tool install -g Rnwood.Smtp4dev
 smtp4dev
 ```
@@ -185,9 +170,7 @@ Use `localhost` as your SMTP server in testing.
 - Sign up at [mailtrap.io](https://mailtrap.io/)
 - Use the provided SMTP credentials in your `appsettings.json` or environment variables.
 
----
-## 🏁 Conclusion
-`MailKit` is the **recommended** way to send emails in .NET 9, replacing `SmtpClient`. It provides a modern and secure approach to email management. 
+## Conclusion
+`MailKit` is now the top choice for sending emails in .NET 9. It takes the place of the old `SmtpClient`. This tool gives a new and safe way to handle emails. Keep key info like login details safe using things like environment variables, **Azure Key Vault**, or **AWS Secrets Manager**.
 
-🔹 **Best Practices:** Use **OAuth2 authentication**, **logging with Serilog**, **retry policies with Polly**, and **test with Smtp4Dev/Mailtrap** to create a robust email-sending system.
-
+If you stick to good steps like using OAuth2 for login, keeping logs, trying again with `Polly`, and testing with `Smtp4Dev` or `Mailtrap`, you can build a strong system for sending emails in your .NET apps.
