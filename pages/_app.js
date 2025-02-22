@@ -6,33 +6,37 @@ import "../styles/globals.css";
 function MyApp({ Component, pageProps }) {
   const [theme, setTheme] = useState("light");
 
-  // Toggle theme between light and dark modes
+  // Cambiar entre los modos claro y oscuro
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     document.documentElement.classList.toggle("dark", newTheme === "dark");
-    // Save theme preference to localStorage
+    // Guardar la preferencia de tema en localStorage
     localStorage.setItem("theme", newTheme);
   };
 
   useEffect(() => {
-    // Avoid FOUC (flash of unstyled content) on page load
-    const savedTheme = localStorage.getItem("theme");
+    try {
+      // Evitar FOUC (flash of unstyled content) al cargar la página
+      const savedTheme = localStorage.getItem("theme");
 
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.classList.add(savedTheme);
-    } else {
-      // Otherwise, check system preference
-      const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const initialTheme = systemPrefersDark ? "dark" : "light";
-      setTheme(initialTheme);
-      document.documentElement.classList.add(initialTheme);
+      if (savedTheme) {
+        setTheme(savedTheme);
+        document.documentElement.classList.add(savedTheme); // Asegúrate de que 'document.documentElement' esté disponible
+      } else {
+        // Si no se encuentra tema guardado, usar la preferencia del sistema
+        const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const initialTheme = systemPrefersDark ? "dark" : "light";
+        setTheme(initialTheme);
+        document.documentElement.classList.add(initialTheme); // Asegúrate de que 'document.documentElement' esté disponible
+      }
+
+      // Asegurarse de que el cuerpo de la página use las clases de transición de color
+      document.documentElement.classList.add("transition-colors", "duration-300", "ease-in-out");
+    } catch (error) {
+      console.error("Error al cargar el tema desde localStorage:", error);
     }
-
-    // Ensure the body uses the correct theme class
-    document.documentElement.classList.add("transition-colors", "duration-300", "ease-in-out");
-  }, []); // Empty dependency array to run only once on component mount
+  }, []); // Dependencia vacía para ejecutarse solo una vez en el montaje del componente
 
   return (
     <div>
@@ -41,7 +45,7 @@ function MyApp({ Component, pageProps }) {
         <meta name="description" content="Personal blog of Adrian Bailador Panero" />
         <meta property="og:title" content="Adrian Bailador Panero - My Blog" />
         <meta property="og:description" content="Explore my personal blog about software engineering, coding, and technology." />
-        <meta property="og:image" content="/path/to/your/image.jpg" />
+        <meta property="og:image" content="/adrian.jpg" />
         <meta name="author" content="Adrian Bailador Panero" />
         <meta property="article:published_time" content="2025-02-22T10:00:00Z" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />

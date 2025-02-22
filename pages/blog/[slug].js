@@ -14,10 +14,11 @@ export default function Article({ article }) {
   return (
     <main className="flex flex-col justify-center pt-32 pb-40">
       <article className="flex flex-col justify-center items-start max-w-2xl mx-auto mb-16 w-full px-4 md:px-0">
+        
+        {/* Enlace de regreso al inicio (arriba) */}
         <small>
           <Link href="/" className="hover:underline">👈 Back to home</Link>
         </small>
-        <br />
 
         <h1 className="font-bold text-3xl md:text-5xl tracking-tight mb-4">
           {article.title}
@@ -39,9 +40,6 @@ export default function Article({ article }) {
             </span>
           </div>
 
-
-
-
           <p className="text-sm text-gray-500 min-w-32 mt-2 md:mt-0 text-right">
             {article.readingTime.text}
           </p>
@@ -52,7 +50,7 @@ export default function Article({ article }) {
           <MDXContent components={mdxComponents} />
         </div>
 
-        <br />
+        {/* Enlace final de regreso al inicio (abajo) */}
         <small>
           <Link href="/" className="hover:underline">👈 Back to home</Link>
         </small>

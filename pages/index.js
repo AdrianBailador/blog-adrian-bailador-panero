@@ -17,12 +17,14 @@ export default function Home({ articles }) {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
+  // Filtrar artículos por tema o título
   const filteredArticles = selectedTopic
     ? articles.filter((article) =>
         article.title.toLowerCase().includes(selectedTopic.toLowerCase())
       )
     : articles;
 
+  // Ordenar artículos por la opción seleccionada
   const sortedArticles = [...filteredArticles].sort((a, b) => {
     if (sortOption === "newest") return new Date(b.date) - new Date(a.date);
     if (sortOption === "oldest") return new Date(a.date) - new Date(b.date);
@@ -30,6 +32,7 @@ export default function Home({ articles }) {
     return 0;
   });
 
+  // Paginación de artículos
   const totalPages = Math.ceil(sortedArticles.length / articlesPerPage);
   const startIndex = (currentPage - 1) * articlesPerPage;
   const displayedArticles = sortedArticles.slice(startIndex, startIndex + articlesPerPage);
