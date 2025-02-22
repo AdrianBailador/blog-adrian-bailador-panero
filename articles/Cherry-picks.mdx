@@ -1,0 +1,125 @@
+---
+title: "Git Cherry-Pick 🍒"
+summary: "The `git cherry-pick` command allows you to select one or more specific commits from one branch and apply them to another without merging the entire history. It is especially useful for retrieving specific changes without affecting other parallel developments."
+date: "2024-02-22"
+---
+
+## What is `git cherry-pick`?
+
+The `git cherry-pick` command allows you to select one or more specific commits from one branch and apply them to another without merging the entire history. It is especially useful for retrieving specific changes without affecting other parallel developments.
+
+## When to Use `git cherry-pick`
+
+`git cherry-pick` is particularly useful in the following scenarios:
+1. **Hotfixes**: If a bug has been fixed in a development branch but also needs to be applied to the production branch, `cherry-pick` allows you to move only the necessary commit.
+2. **Recovering changes**: If commits were made to the wrong branch, rather than performing a full merge, `cherry-pick` allows you to move those changes to the correct branch.
+3. **Selecting specific changes**: In cases where you don’t want to merge an entire branch, but only some specific commits.
+
+## How to Execute `git cherry-pick`
+
+### In the Command Line
+
+1. **Switch to the destination branch**:
+   ```bash
+   git checkout destination-branch
+   ```
+
+2. **Obtain the commit hash**:
+   ```bash
+   git log --oneline
+   ```
+
+3. **Execute git cherry-pick with the commit hash**:
+   ```bash
+   git cherry-pick <commit-hash>
+   ```
+
+If you need to apply multiple commits, list them:
+```bash
+git cherry-pick <hash1> <hash2> <hash3>
+```
+
+Or apply a range of commits:
+```bash
+git cherry-pick <start-hash>^..<end-hash>
+```
+
+If a conflict occurs, Git will request manual resolution before continuing.
+
+### In Visual Studio Code
+
+1. Open the Source Control tab.
+2. Switch to the destination branch.
+3. In the integrated terminal, use `git log` to obtain the commit hash.
+4. Run the command `git cherry-pick <commit-hash>` in the terminal.
+5. If a conflict occurs, Visual Studio Code will display a graphical interface to resolve it.
+
+### Using `git cherry-pick --no-commit`
+
+If you want to apply changes without immediately committing, use:
+```bash
+git cherry-pick --no-commit <commit-hash>
+```
+
+This is useful if you need to modify the files before committing the changes.
+
+### Using `git cherry-pick -x`
+
+If you want to automatically add a reference to the original commit in the commit message of the cherry-picked commit, use:
+```bash
+git cherry-pick -x <commit-hash>
+```
+
+This helps to track the origin of the change, which is especially useful in collaborative projects.
+
+## Alternatives to `git cherry-pick`
+
+- `git rebase`: This might be more useful if you need to reorganise commits within a branch.
+- `git merge`: If you want to bring all changes from a branch without selecting individual commits.
+
+## Resolving Errors and Conflicts
+
+- **Abort an ongoing cherry-pick**:
+  ```bash
+  git cherry-pick --abort
+  ```
+
+- **Continue after resolving a conflict**:
+  ```bash
+  git cherry-pick --continue
+  ```
+
+- **Revert a cherry-pick**:
+  ```bash
+  git cherry-pick -n <commit-hash>
+  git reset
+  ```
+
+## Practical Example with Commits and Branches
+
+Suppose you have the following branch structure:
+
+* (main)
+|
+|---o---o---o (feature-branch)
+|
+|---o---o---o (hotfix-branch)
+
+If you want to apply a specific commit from `feature-branch` to `main`, you can do it with:
+```bash
+git checkout main
+git cherry-pick <commit-hash>
+```
+
+This will bring only that commit without merging the entire `feature-branch`.
+
+## Best Practices
+
+- Avoid overusing `git cherry-pick`: It can duplicate commits in the history.
+- Document cherry-picks: In large teams, make sure to record cherry-picks to avoid confusion.
+- Use `git cherry-pick -x`: This maintains the traceability of commits.
+- Consider alternatives: Such as `rebase` or `merge`, depending on the case.
+
+## Summary
+
+The cherry-pick feature in Git is a robust function that enables you to choose specific changes from one branch and add them to another branch without executing a complete merge process. This tool is handy for addressing issues in the live environment or transferring specific modifications between branches. However, it is crucial to exercise care when using this function to prevent any clashes or repetitions in the project history. Keep in mind that although `git cherry-pick` can be handy, it’s a good idea to explore other options like `git rebase` or `git merge` based on what you require and how your team operates.
