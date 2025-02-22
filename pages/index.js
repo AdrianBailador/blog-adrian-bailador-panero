@@ -2,12 +2,14 @@ import { useState } from "react";
 import { allArticles } from ".contentlayer/generated";
 import { pick } from "@contentlayer/client";
 import Article from "components/article";
-import { Linkedin, Github } from "lucide-react";
-import { SiX } from "react-icons/si";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import Navbar from "components/navbar";
+import Hero from "components/hero";
+import About from "components/about";
+import SortFilter from "components/sortFilter";
+import Pagination from "components/pagination";
+import Follow from "components/follow";
 import Head from 'next/head';
 
-const topics = ["C#", ".NET", "Next.js", "React", "JavaScript"];
 const articlesPerPage = 6;
 
 export default function Home({ articles }) {
@@ -17,11 +19,7 @@ export default function Home({ articles }) {
 
   const filteredArticles = selectedTopic
     ? articles.filter((article) =>
-        topics.some(
-          (topic) =>
-            article.title.toLowerCase().includes(topic.toLowerCase()) &&
-            topic === selectedTopic
-        )
+        article.title.toLowerCase().includes(selectedTopic.toLowerCase())
       )
     : articles;
 
@@ -44,110 +42,31 @@ export default function Home({ articles }) {
       </Head>
 
       <main className="max-w-7xl mx-auto pt-32 pb-40">
-        {/* Navbar */}
-        <nav className="flex justify-center gap-8 mb-16">
-          <a href="#about" className="text-lg text-gray-600 hover:text-blue-600">About Me</a>
-          <a href="#articles" className="text-lg text-gray-600 hover:text-blue-600">Articles</a>
-          <a href="#follow" className="text-lg text-gray-600 hover:text-blue-600">Follow Me</a>
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <img
-            src="/adrian.jpg"
-            alt="Adrian Bailador"
-            className="w-24 h-24 rounded-full border-4 border-gray-300 object-cover"
-          />
-          <div className="flex flex-col">
-            <h1 className="text-4xl md:text-6xl leading-tight">Adrian Bailador Panero</h1>
-            <p className="font-bold text-lg text-gray-600">Senior Software Engineer | .NET | C# | Azure | JS</p>
-          </div>
-        </div>
-
-        <section id="about" className="pt-16">
-          <h2 className="text-4xl mb-4">About Me</h2>
-          <p className="mb-5">
-            I am a passionate and dedicated .NET Software Engineer with extensive experience in application development using .NET Core, .NET Framework, Azure, React, Java, and SQL Server. Throughout my career, I have demonstrated the ability to design and optimize SQL Server databases, create intuitive user interfaces using React and JavaScript, and efficiently manage code version control with Git.
-            <br />
-            <br />
-            I possess solid knowledge of the entire software development lifecycle, including requirements analysis, application implementation, testing, and maintenance. I am always seeking opportunities to apply and expand my technical skills while delivering valuable and innovative solutions to software development teams.
-            <br />
-            <br />
-            My long-term goal is to become a Software Architect. I am continuously learning and improving my skills to achieve this objective. I strongly believe in the potential of technology to enhance business operations, and I am motivated by the opportunity to contribute to the creation of solutions that make a meaningful impact.
-          </p>
-        </section>
+        <Navbar />
+        <Hero />
+        <About />
 
         <section id="articles" className="pt-16">
           <h2 className="text-4xl mb-4">Articles</h2>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <label htmlFor="sort" className="sr-only">Sort Articles</label>
-            <select
-              id="sort"
-              className="border px-2 py-1 rounded bg-white dark:bg-gray-700 dark:text-white w-full sm:w-auto"
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)}
-            >
-              <option value="newest">Newest</option>
-              <option value="oldest">Oldest</option>
-              <option value="readingTime">Longest Reading Time</option>
-            </select>
-
-            <label htmlFor="topic" className="sr-only">Filter Articles by Topic</label>
-            <select
-              id="topic"
-              className="border px-2 py-1 rounded bg-white dark:bg-gray-700 dark:text-white w-full sm:w-auto"
-              value={selectedTopic}
-              onChange={(e) => setSelectedTopic(e.target.value)}
-            >
-              <option value="">All Topics</option>
-              {topics.map((topic) => (
-                <option key={topic} value={topic}>
-                  {topic}
-                </option>
-              ))}
-            </select>
-          </div>
-          <br />
+          <SortFilter 
+            sortOption={sortOption} 
+            setSortOption={setSortOption} 
+            selectedTopic={selectedTopic} 
+            setSelectedTopic={setSelectedTopic} 
+          />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 w-full">
             {displayedArticles.map((article) => (
               <Article key={article.slug} article={article} />
             ))}
           </div>
-          <div className="flex justify-center items-center gap-4 mt-8">
-            <button
-              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-              disabled={currentPage === 1}
-              className="disabled:opacity-50"
-              aria-label="Previous Page"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-            <span>Page {currentPage} of {totalPages}</span>
-            <button
-              onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-              disabled={currentPage === totalPages}
-              className="disabled:opacity-50"
-              aria-label="Next Page"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </div>
+          <Pagination 
+            currentPage={currentPage} 
+            totalPages={totalPages} 
+            setCurrentPage={setCurrentPage} 
+          />
         </section>
 
-        <section id="follow" className="pt-16">
-          <h2 className="text-4xl mb-4">Follow Me</h2>
-          <p className="text-lg mb-4">Connect with me on my social networks:</p>
-          <div className="flex space-x-6">
-            <a href="https://linkedin.com/in/adrianbailadorpanero" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile" className="flex items-center space-x-2 text-blue-600 hover:underline">
-              <Linkedin className="w-6 h-6" />
-            </a>
-            <a href="https://x.com/DotNetDevABP" target="_blank" rel="noopener noreferrer" aria-label="X Profile" className="flex items-center space-x-2 text-blue-400 hover:underline">
-              <SiX className="w-6 h-6" />
-            </a>
-            <a href="https://github.com/AdrianBailador" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" className="flex items-center space-x-2 text-gray-300 hover:underline">
-              <Github className="w-6 h-6" />
-            </a>
-          </div>
-        </section>
+        <Follow />
       </main>
     </div>
   );

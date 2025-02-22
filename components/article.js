@@ -4,6 +4,7 @@ import { parseISO, format } from "date-fns";
 export default function Article({ article }) {
   const { slug, date, title, readingTime } = article;
   return (
+    
     <div className="pt-5 p-8 rounded-3xl border-2 shadow-lg border-purple-300 bg-white dark:bg-gray-800 dark:border-purple-600 dark:text-white flex flex-col justify-between transition-colors duration-300">
       <Link href={`/blog/${slug}`}>
         <a className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{title}</a>
