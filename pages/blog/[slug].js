@@ -15,7 +15,7 @@ export default function Article({ article }) {
     <main className="flex flex-col justify-center pt-32 pb-40">
       <article className="flex flex-col justify-center items-start max-w-2xl mx-auto mb-16 w-full px-4 md:px-0">
         
-        {/* Enlace de regreso al inicio (arriba) */}
+  
         <small>
           <Link href="/" className="hover:underline">👈 Back to home</Link>
         </small>
@@ -24,7 +24,7 @@ export default function Article({ article }) {
           {article.title}
         </h1>
 
-        {/* Contenedor de autor y fecha */}
+
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center w-full mt-2">
           <div className="flex items-center gap-2">
             <Image
@@ -45,12 +45,12 @@ export default function Article({ article }) {
           </p>
         </div>
 
-        {/* Contenido del artículo */}
+        
         <div className="prose dark:prose-invert max-w-none w-full mt-5 mb-8 px-4 md:px-0">
           <MDXContent components={mdxComponents} />
         </div>
 
-        {/* Enlace final de regreso al inicio (abajo) */}
+    
         <small>
           <Link href="/" className="hover:underline">👈 Back to home</Link>
         </small>
