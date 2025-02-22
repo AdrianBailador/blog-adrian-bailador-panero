@@ -18,7 +18,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     // Avoid FOUC (flash of unstyled content) on page load
     const savedTheme = localStorage.getItem("theme");
-    
+
     if (savedTheme) {
       setTheme(savedTheme);
       document.documentElement.classList.add(savedTheme);
@@ -29,7 +29,7 @@ function MyApp({ Component, pageProps }) {
       setTheme(initialTheme);
       document.documentElement.classList.add(initialTheme);
     }
-    
+
     // Ensure the body uses the correct theme class
     document.documentElement.classList.add("transition-colors", "duration-300", "ease-in-out");
   }, []); // Empty dependency array to run only once on component mount
@@ -39,6 +39,11 @@ function MyApp({ Component, pageProps }) {
       <Head>
         <title>My Blog - Adrian Bailador Panero</title>
         <meta name="description" content="Personal blog of Adrian Bailador Panero" />
+        <meta property="og:title" content="Adrian Bailador Panero - My Blog" />
+        <meta property="og:description" content="Explore my personal blog about software engineering, coding, and technology." />
+        <meta property="og:image" content="/path/to/your/image.jpg" />
+        <meta name="author" content="Adrian Bailador Panero" />
+        <meta property="article:published_time" content="2025-02-22T10:00:00Z" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
