@@ -11,32 +11,32 @@ function MyApp({ Component, pageProps }) {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
     document.documentElement.classList.toggle("dark", newTheme === "dark");
-    // Guardar la preferencia de tema en localStorage
+
     localStorage.setItem("theme", newTheme);
   };
 
   useEffect(() => {
     try {
-      // Evitar FOUC (flash of unstyled content) al cargar la página
+     
       const savedTheme = localStorage.getItem("theme");
 
       if (savedTheme) {
         setTheme(savedTheme);
-        document.documentElement.classList.add(savedTheme); // Asegúrate de que 'document.documentElement' esté disponible
+        document.documentElement.classList.add(savedTheme); 
       } else {
-        // Si no se encuentra tema guardado, usar la preferencia del sistema
+        
         const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
         const initialTheme = systemPrefersDark ? "dark" : "light";
         setTheme(initialTheme);
-        document.documentElement.classList.add(initialTheme); // Asegúrate de que 'document.documentElement' esté disponible
+        document.documentElement.classList.add(initialTheme); 
       }
 
-      // Asegurarse de que el cuerpo de la página use las clases de transición de color
+
       document.documentElement.classList.add("transition-colors", "duration-300", "ease-in-out");
     } catch (error) {
       console.error("Error al cargar el tema desde localStorage:", error);
     }
-  }, []); // Dependencia vacía para ejecutarse solo una vez en el montaje del componente
+  }, []); 
 
   return (
     <div>
