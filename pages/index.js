@@ -10,6 +10,7 @@ import Pagination from "components/pagination";
 import Follow from "components/follow";
 import Head from "next/head";
 
+
 const articlesPerPage = 6;
 
 export default function Home({ articles }) {
@@ -17,7 +18,6 @@ export default function Home({ articles }) {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Filtrado y ordenación con useMemo para evitar cálculos innecesarios
   const processedArticles = useMemo(() => {
     let filtered = selectedTopic
       ? articles.filter((article) =>
@@ -33,7 +33,6 @@ export default function Home({ articles }) {
     });
   }, [articles, selectedTopic, sortOption]);
 
-  // Paginación
   const totalPages = Math.ceil(processedArticles.length / articlesPerPage);
   const startIndex = (currentPage - 1) * articlesPerPage;
   const displayedArticles = processedArticles.slice(startIndex, startIndex + articlesPerPage);
@@ -43,9 +42,31 @@ export default function Home({ articles }) {
       <Head>
         <title>Adrian Bailador Panero | Senior Software Engineer</title>
         <meta name="description" content="Personal blog of Adrian Bailador Panero" />
+        
+  
         <meta property="og:title" content="Adrian Bailador Panero - My Blog" />
-        <meta property="og:description" content="Explore my personal blog about software engineering, coding, and technology." />
-        <meta property="og:image" content="https://blog-adrian-bailador-panero.vercel.app/adrian.jpg" />
+        <meta 
+          property="og:description" 
+          content="Explore my personal blog about software engineering, coding, and technology. Talks about .NET, C#, Azure, Visual Studio, and a little bit of Next.js." 
+        />
+        <meta property="og:url" content="https://blog-adrianbailadorpanero.netlify.app/" />
+        <meta property="og:image" content="https://blog-adrianbailadorpanero.netlify.app/images/titulo.png" />
+        <meta property="og:image:alt" content="Adrian Bailador Panero Blog Image" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:type" content="website" />
+        
+      
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:creator" content="@DotNetDevABP" />
+        <meta name="twitter:title" content="Adrian Bailador Panero - My Blog" />
+        <meta 
+          name="twitter:description" 
+          content="Explore my personal blog about software engineering, coding, and technology. Talks about .NET, C#, Azure, Visual Studio, and a little bit of Next.js." 
+        />
+        <meta name="twitter:image" content="https://blog-adrianbailadorpanero.netlify.app/images/titulo.png" />
+        
         <meta name="author" content="Adrian Bailador Panero" />
         <meta property="article:published_time" content="2025-02-22T10:00:00Z" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -83,12 +104,12 @@ export default function Home({ articles }) {
   );
 }
 
-// getStaticProps optimizado con manejo de errores y validación
+
 export async function getStaticProps() {
   try {
     const articles = allArticles?.map((article) => ({
       ...pick(article, ["title", "date", "readingTime", "slug"]),
-      timestamp: new Date(article.date).getTime(), // Preconvertimos la fecha para mejorar rendimiento en sort
+      timestamp: new Date(article.date).getTime(), 
     })) || [];
 
     return { props: { articles } };
@@ -98,7 +119,7 @@ export async function getStaticProps() {
       props: { 
         articles: [] 
       },
-      revalidate: 60,  // Regenerar la página cada 60 segundos
+      revalidate: 60, 
     };
   }
 }
