@@ -1,0 +1,59 @@
+---
+title: "Why Has Microsoft Chosen Go Instead of C# for the TypeScript Compiler? Is C# in Decline?"
+summary: "Recently, the developer community has been buzzing with debate over Microsoft's decision to rewrite the TypeScript compiler in **Go**, rather than **C#** or even **Rust**. This move has led some to question whether C# is losing relevance or if .NET is in decline."
+date: "2025-03-12"
+thumbnail: "/images/titulo.png"
+---
+
+
+
+
+
+Recently, the developer community has been buzzing with debate over Microsoft's decision to rewrite the TypeScript compiler in **Go**, rather than **C#** or even **Rust**. This move has led some to question whether C# is losing relevance or if .NET is in decline.  
+
+However, the reality is far more nuanced. The choice of Go is a pragmatic one and does not indicate an abandonment of C#. Let’s explore the reasons behind this decision and what it really means for the future of the .NET ecosystem.  
+
+## **Reasons Behind Choosing Go**  
+
+The TypeScript team opted for Go primarily for technical and performance-related reasons. Some key factors include:  
+
+1. **Compilation and Execution Speed**  
+   Go is renowned for its extremely fast compilation times—crucial for a compiler like TypeScript's, which needs to process large volumes of code continuously. Compared to C#, which relies on a virtual machine (CLR) and garbage collection, Go can execute compilation tasks more efficiently.  
+
+2. **Simplicity and Maintainability**  
+   Go’s minimalistic design, which lacks features such as inheritance and operator overloading, makes it easier to maintain and debug. For a compiler—where clarity and stability are key—this simplicity is a major advantage.  
+
+3. **Concurrency and Parallelism Support**  
+   The TypeScript compiler benefits significantly from Go’s lightweight concurrency model, enabled by **goroutines**. While C# also has a solid concurrency model with **async/await** and the **Task Parallel Library (TPL)**, Go achieves concurrency with lower memory consumption and latency.  
+
+4. **Independence from the .NET Ecosystem**  
+   By writing the new compiler in Go, the TypeScript team avoids dependencies on .NET or Windows. Go is highly portable and has a lightweight runtime, making it easier to deploy across different environments without requiring additional frameworks.  
+
+## **Does This Mean C# Is in Decline?**  
+
+Not at all. While this decision has sparked debate, C# continues to evolve and remains a leading language in multiple areas:  
+
+- **Enterprise Development**: With .NET, C# still dominates enterprise application development, both in the cloud and on-premises. Companies such as Stack Overflow, LinkedIn, and Azure DevOps continue to rely on it.  
+- **API and Microservices Development**: ASP.NET Core is one of the most efficient choices for building modern web APIs, competing with Go and Node.js in performance and usability.  
+- **Game Development**: Unity, the world’s most popular game engine, uses C# as its primary language, ensuring an active and growing community.  
+- **Machine Learning and AI**: With ML.NET and its integration with ONNX and TensorFlow, C# is gaining traction in applied AI.  
+- **Cross-Platform Applications**: With .NET MAUI, Microsoft continues to push for C# in mobile and desktop application development.  
+
+Microsoft is still heavily investing in .NET and C#, with continuous improvements in performance and new features. The latest .NET versions have introduced enhanced garbage collection, faster assembly loading, and optimised native code execution.  
+
+## **Why Not Rust or Zig Instead of Go?**  
+
+Given the focus on performance and efficiency, some might wonder why Rust or Zig were not chosen instead of Go. Some possible reasons include:  
+
+- **Learning Curve**: Rust, while powerful, has a steep learning curve due to its ownership and memory management system. Go, on the other hand, is much easier to adopt.  
+- **Development Speed**: Go allows for rapid development with less code and lower complexity compared to Rust.  
+- **Team Compatibility**: The developers maintaining TypeScript may already have been more familiar with Go than Rust or Zig.  
+
+## **My Opinion**  
+
+Microsoft’s decision to use Go for the TypeScript compiler does not mean C# is declining. It simply means that, for this particular task, Go was the better choice due to its performance, concurrency, and maintainability.  
+
+C# remains a powerful language with a strong ecosystem in enterprise development, APIs, game development, and cross-platform applications. As long as Microsoft continues investing in .NET and modernising its stack, C# will remain a top-tier choice for many developers.  
+
+Ultimately, this isn’t about one language "winning" or "losing"—it’s about choosing the best tool for the job.  
+
